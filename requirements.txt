@@ -1,0 +1,8 @@
+pandas>=2.0
+numpy
+faker
+fastapi
+uvicorn[standard]
+pydantic>=2.0
+pytest
+python-multipart

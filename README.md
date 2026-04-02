@@ -5,6 +5,15 @@ End-to-end data engineering and fullstack dashboard assignment.
 
 ---
 
+## Prerequisites
+
+- Python **3.9 or above** (`python --version`)
+- Node.js **18 or above** (`node --version`)
+- Docker Desktop (for containerised deployment)
+- `pip` and `npm` available in PATH
+
+---
+
 ## Quick Start (5 minutes)
 
 ### 1. Install dependencies
@@ -86,7 +95,7 @@ All endpoints return 404 with `{"detail": "Data file not found. Run analyze.py f
 ## Run Tests
 
 ```bash
-pytest tests/ -v
+python -m pytest tests/ -v
 ```
 
 Expected: **5 test classes, 20+ assertions**, all green.
@@ -110,14 +119,21 @@ multiplierAI_assignment/
 │
 ├── frontend/                # Vite + React dashboard
 │   ├── src/
-│   │   ├── App.jsx          # Tab navigation + KPI cards
-│   │   ├── api.js           # Fetch utility + formatters
+│   │   ├── App.jsx
+│   │   ├── api.js           # Fetch utility
+│   │   ├── utils/formatters.js
+│   │   ├── hooks/useAPIData.js
+│   │   ├── pages/Dashboard.jsx
 │   │   └── components/
-│   │       ├── Sidebar.jsx
-│   │       ├── RevenueChart.jsx   # ← bonus: date-range filter
-│   │       ├── TopCustomers.jsx   # ← bonus: search box
-│   │       ├── CategoryChart.jsx
-│   │       └── RegionSummary.jsx
+│   │       ├── Layout/Sidebar.jsx
+│   │       ├── Layout/TopBar.jsx
+│   │       ├── charts/RevenueChart.jsx  # ← bonus: date-range filter
+│   │       ├── charts/CategoryChart.jsx
+│   │       ├── tables/CustomersTable.jsx # ← bonus: search box
+│   │       ├── cards/RegionCard.jsx
+│   │       ├── ui/KPICard.jsx
+│   │       ├── ui/SkeletonLoader.jsx
+│   │       └── ui/ErrorBanner.jsx
 │   └── vite.config.js       # Port 3000, /api proxy → :8000
 │
 ├── tests/

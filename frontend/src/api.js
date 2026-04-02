@@ -1,4 +1,5 @@
-// frontend/src/api.js — Centralised API utility
+// frontend/src/api.js — Centralised API fetch utility
+// Note: formatters have moved to ./utils/formatters.js
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000'
 
@@ -9,13 +10,4 @@ export async function fetchData(endpoint) {
     throw new Error(body.detail || `HTTP ${res.status}`)
   }
   return res.json()
-}
-
-export const fmt = {
-  currency: (n) =>
-    typeof n === 'number'
-      ? '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-      : '—',
-  number: (n) => (typeof n === 'number' ? n.toLocaleString('en-US') : '—'),
-  pct: (n) => (typeof n === 'number' ? n.toFixed(1) + '%' : '—'),
 }

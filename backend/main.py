@@ -5,18 +5,18 @@ Run with:
     uvicorn backend.main:app --reload --port 8000
 """
 
-import sys
 import pathlib
+import sys
 
 # Ensure project root is on sys.path when running from any directory
 sys.path.insert(0, str(pathlib.Path(__file__).parent.parent))
 
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
+from fastapi import FastAPI  # noqa: E402
+from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
+from fastapi.staticfiles import StaticFiles  # noqa: E402
 
-from backend.routers.data import router
-from backend.config import FRONTEND_DIR
+from backend.routers.data import router  # noqa: E402
+from backend.config import FRONTEND_DIR  # noqa: E402
 
 app = FastAPI(
     title="Data Analytics Dashboard API",
@@ -43,6 +43,9 @@ def health():
 app.include_router(router, tags=["data"])
 
 # Serve the built React frontend as static files (fallback)
-# This makes everything accessible from port 8000 too.
 if FRONTEND_DIR.exists():
-    app.mount("/", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="static")
+    app.mount(
+        "/",
+        StaticFiles(directory=str(FRONTEND_DIR), html=True),
+        name="static",
+    )

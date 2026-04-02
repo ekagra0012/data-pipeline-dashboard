@@ -135,14 +135,20 @@ def generate_customers(output_dir: pathlib.Path, n: int = 500) -> list:
         dupe = source.copy()
         try:
             d = datetime.strptime(source["signup_date"], "%Y-%m-%d")
-            dupe["signup_date"] = (d - timedelta(days=random.randint(1, 60))).strftime("%Y-%m-%d")
+            dupe["signup_date"] = (
+                (d - timedelta(days=random.randint(1, 60)))
+                .strftime("%Y-%m-%d")
+            )
         except (ValueError, TypeError):
             pass
         rows.append(dupe)
 
     random.shuffle(rows)
     pd.DataFrame(rows).to_csv(output_dir / "customers.csv", index=False)
-    print(f"  ✓ customers.csv — {len(rows)} rows (~{n_dupes} duplicates, anomalies injected)")
+    print(
+        f"  ✓ customers.csv — {len(rows)} rows "
+        f"(~{n_dupes} duplicates, anomalies injected)"
+    )
     return customer_ids
 
 
@@ -152,7 +158,9 @@ def _order_date_str(date: datetime) -> str:
     return date.strftime(fmt)
 
 
-def generate_orders(output_dir: pathlib.Path, customer_ids: list, n: int = 2000) -> None:
+def generate_orders(
+    output_dir: pathlib.Path, customer_ids: list, n: int = 2000
+) -> None:
     # Weight toward 'completed' so analysis has enough data
     status_pool = STATUS_VARIANTS * 2 + ["completed"] * 12
     rows = []
@@ -187,8 +195,14 @@ def generate_orders(output_dir: pathlib.Path, customer_ids: list, n: int = 2000)
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate synthetic CSV datasets with anomalies")
-    parser.add_argument("--output-dir", default="data/raw", help="Output directory (default: data/raw)")
+    parser = argparse.ArgumentParser(
+        description="Generate synthetic CSV datasets with anomalies"
+    )
+    parser.add_argument(
+        "--output-dir",
+        default="data/raw",
+        help="Output directory (default: data/raw)",
+    )
     args = parser.parse_args()
 
     output_dir = pathlib.Path(args.output_dir)

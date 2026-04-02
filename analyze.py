@@ -140,9 +140,11 @@ def compute_regional_analysis(
     regional["avg_revenue_per_customer"] = (
         regional["total_revenue"] / regional["num_customers"]
     )
-    return regional[
-        ["region", "num_customers", "num_orders", "total_revenue", "avg_revenue_per_customer"]
-    ].reset_index(drop=True)
+    cols = [
+        "region", "num_customers", "num_orders",
+        "total_revenue", "avg_revenue_per_customer",
+    ]
+    return regional[cols].reset_index(drop=True)
 
 
 def add_churn_indicator(
@@ -174,8 +176,14 @@ def add_churn_indicator(
 
 def main():
     parser = argparse.ArgumentParser(description="Merge and analyse cleaned CSVs")
-    parser.add_argument("--raw-dir", default="data/raw", help="Raw CSVs directory")
-    parser.add_argument("--processed-dir", default="data/processed", help="Processed CSVs directory")
+    parser.add_argument(
+        "--raw-dir", default="data/raw", help="Raw CSVs directory"
+    )
+    parser.add_argument(
+        "--processed-dir",
+        default="data/processed",
+        help="Processed CSVs directory",
+    )
     args = parser.parse_args()
 
     raw_dir = pathlib.Path(args.raw_dir)
